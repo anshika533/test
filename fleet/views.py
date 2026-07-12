@@ -233,17 +233,52 @@ def maintenance_list(request):
 def maintenance_create(request):
     if request.method == 'POST':
         form = MaintenanceForm(request.POST)
+
         if form.is_valid():
             log = form.save(commit=False)
+            vehicle = log.vehicle
+
+           
+            if vehicle.status == 'ON_TRIP':
+                messages.error(
+                    request,
+                    f"{vehicle.registration_number} is currently assigned to a driver and is on an active trip."
+                )
+                return render(
+                    request,
+                    'fleet/maintenance_form.html',
+                    {'form': form}
+                )
+
+      
+            if vehicle.status == 'IN_SHOP':
+                messages.error(
+                    request,
+                    f"{vehicle.registration_number} is already under maintenance."
+                )
+                return render(
+                    request,
+                    'fleet/maintenance_form.html',
+                    {'form': form}
+                )
+
             log.status = 'OPEN'
             log.save()
-            log.vehicle.status = 'IN_SHOP'
-            log.vehicle.save()
-            messages.success(request, 'Maintenance logged.')
+
+            vehicle.status = 'IN_SHOP'
+            vehicle.save()
+
+            messages.success(request, 'Maintenance logged successfully.')
             return redirect('maintenance_list')
+
     else:
         form = MaintenanceForm()
-    return render(request, 'fleet/maintenance_form.html', {'form': form})
+
+    return render(
+        request,
+        'fleet/maintenance_form.html',
+        {'form': form}
+    )
 
 
 @login_required

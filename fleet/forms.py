@@ -49,21 +49,40 @@ class MaintenanceForm(forms.ModelForm):
     class Meta:
         model = MaintenanceLog
         fields = '__all__'
+
         widgets = {
             'vehicle': forms.Select(attrs={'class': 'form-select'}),
             'maintenance_type': forms.Select(attrs={'class': 'form-select'}),
-            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'cost': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': '₹ Enter Cost'
-            }),
-            'description': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 3
-            }),
-            'status': forms.Select(attrs={'class': 'form-select'}),
+            'date': forms.DateInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'date'
+                }
+            ),
+            'cost': forms.NumberInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': '₹ Enter Cost'
+                }
+            ),
+            'description': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'rows': 3
+                }
+            ),
+            'status': forms.Select(
+                attrs={'class': 'form-select'}
+            ),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+       
+        self.fields['vehicle'].queryset = Vehicle.objects.filter(
+            status='AVAILABLE'
+        )
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['vehicle'].queryset = Vehicle.objects.exclude(status__in=['RETIRED', 'IN_SHOP'])
