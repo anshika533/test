@@ -1,5 +1,6 @@
 from django import forms
 from .models import Vehicle, Driver, Trip, MaintenanceLog, FuelLog
+import re
 
 class VehicleForm(forms.ModelForm):
     class Meta:
@@ -7,12 +8,23 @@ class VehicleForm(forms.ModelForm):
         fields = ['registration_number', 'name_model', 'vehicle_type', 'max_load_capacity',
                   'odometer', 'acquisition_cost', 'region']
 
+
+
+
 class DriverForm(forms.ModelForm):
     class Meta:
         model = Driver
-        fields = ['name', 'license_number', 'license_category', 'license_expiry_date',
-                  'contact_number', 'safety_score']
-        widgets = {'license_expiry_date': forms.DateInput(attrs={'type': 'date'})}
+        fields = "__all__"
+
+    def clean_contact_number(self):
+        contact = self.cleaned_data.get("contact_number")
+
+        if not re.fullmatch(r'^[6-9]\d{9}$', contact):
+            raise forms.ValidationError(
+                "Enter a valid 10-digit mobile number."
+            )
+
+        return contact
 
 class TripForm(forms.ModelForm):
     class Meta:

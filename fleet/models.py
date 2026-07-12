@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import RegexValidator
 
 # Create your models here.
 class Vehicle(models.Model):
@@ -21,7 +22,10 @@ class Vehicle(models.Model):
     def __str__(self):
         return f"{self.registration_number} - {self.name_model}"
 
-
+phone_validator = RegexValidator(
+    regex=r'^[6-9]\d{9}$',
+    message="Enter a valid 10-digit mobile number."
+)
 class Driver(models.Model):
     STATUS_CHOICES = [
         ('AVAILABLE', 'Available'),
@@ -29,14 +33,24 @@ class Driver(models.Model):
         ('OFF_DUTY', 'Off Duty'),
         ('SUSPENDED', 'Suspended'),
     ]
+
     name = models.CharField(max_length=100)
     license_number = models.CharField(max_length=50, unique=True)
     license_category = models.CharField(max_length=50)
     license_expiry_date = models.DateField()
-    contact_number = models.CharField(max_length=15)
+
+    contact_number = models.CharField(
+        max_length=10,
+        validators=[phone_validator],
+        unique=True
+    )
+
     safety_score = models.DecimalField(max_digits=5, decimal_places=2, default=100)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='AVAILABLE')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
 
     def __str__(self):
         return self.name

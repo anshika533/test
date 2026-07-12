@@ -1,43 +1,102 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
 
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-header bg-primary text-white rounded-top-4">
-                    <h3 class="mb-0">
-                        <i class="bi bi-person-plus-fill"></i> Add Driver
-                    </h3>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- Header -->
+                <div class="bg-primary text-white text-center py-4">
+                    <i class="bi bi-person-plus-fill display-5"></i>
+                    <h2 class="mt-2 fw-bold">Add New Driver</h2>
+                    <p class="mb-0 opacity-75">
+                        Fill in the details below to register a driver.
+                    </p>
                 </div>
 
-                <div class="card-body p-4">
+                <!-- Form -->
+                <div class="card-body p-5">
 
-                    <form method="post">
+                    <form method="POST">
                         {% csrf_token %}
 
-                        <div class="mb-3">
-                            {{ form.as_p }}
-                        </div>
+                        {{ form.as_p }}
+
+                        <hr class="my-4">
 
                         <div class="d-flex justify-content-between">
-                            <a href="{% url 'driver_list' %}" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left"></i> Back
+
+                            <a href="{% url 'driver_list' %}" class="btn btn-outline-secondary px-4">
+                                <i class="bi bi-arrow-left"></i>
+                                Back
                             </a>
 
                             <button type="submit" class="btn btn-success px-4">
-                                <i class="bi bi-check-circle"></i> Save Driver
+                                <i class="bi bi-check-circle-fill"></i>
+                                Save Driver
                             </button>
+
                         </div>
 
                     </form>
 
                 </div>
+
             </div>
 
         </div>
     </div>
 </div>
-{% endblock %}
 
+<style>
+body{
+    background: linear-gradient(135deg,#eef2ff,#f8f9fa);
+}
+
+.card{
+    transition: .3s;
+}
+
+.card:hover{
+    transform: translateY(-4px);
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    border-radius:12px !important;
+    border:1px solid #ced4da !important;
+    padding:12px 15px !important;
+    margin-top:6px;
+    margin-bottom:18px;
+    transition:.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#0d6efd !important;
+    box-shadow:0 0 0 .2rem rgba(13,110,253,.15) !important;
+    outline:none;
+}
+
+label{
+    font-weight:600;
+    color:#495057;
+}
+
+.btn{
+    border-radius:10px;
+    font-weight:600;
+}
+
+.card-header{
+    border:none;
+}
+</style>
+
+{% endblock %}
