@@ -72,4 +72,10 @@ class FuelLogForm(forms.ModelForm):
     class Meta:
         model = FuelLog
         fields = ['vehicle', 'liters', 'cost', 'date']
-        widgets = {'date': forms.DateInput(attrs={'type': 'date'})}
+        widgets = {
+            'vehicle': forms.Select(attrs={'class': 'form-select'}),
+            'fuel_amount': forms.NumberInput(attrs={'class': 'form-control'}),
+            'price_per_litre': forms.NumberInput(attrs={'class': 'form-control'}),
+            'cost': forms.NumberInput(attrs={'class': 'form-control'}),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }

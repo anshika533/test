@@ -1,5 +1,135 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h3>Add Fuel Log</h3>
-<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-success">Save</button></form>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- Header -->
+                <div class="card-header text-white py-4">
+                    <h2 class="mb-1">⛽ Add Fuel Log</h2>
+                    <p class="mb-0">
+                        Record fuel usage and expenses for your fleet vehicles
+                    </p>
+                </div>
+
+                <!-- Form -->
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            {% for field in form %}
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-bold">
+                                    {{ field.label }}
+                                </label>
+
+                                {% if field.name == "cost" %}
+                                    <div class="input-group">
+                                        <span class="input-group-text">₹</span>
+                                        {{ field }}
+                                    </div>
+
+                                {% elif field.name == "fuel_amount" %}
+                                    <div class="input-group">
+                                        {{ field }}
+                                        <span class="input-group-text">L</span>
+                                    </div>
+
+                                {% elif field.name == "price_per_litre" %}
+                                    <div class="input-group">
+                                        <span class="input-group-text">₹</span>
+                                        {{ field }}
+                                        <span class="input-group-text">/L</span>
+                                    </div>
+
+                                {% else %}
+                                    {{ field }}
+                                {% endif %}
+
+                                {% if field.help_text %}
+                                    <small class="text-muted d-block mt-1">
+                                        {{ field.help_text }}
+                                    </small>
+                                {% endif %}
+
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'fuel_list' %}" class="btn btn-outline-secondary px-4">
+                                ← Back
+                            </a>
+
+                            <button type="submit" class="btn btn-success px-5 fw-bold">
+                                ⛽ Save Fuel Log
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+.card{
+    transition: all 0.3s ease;
+}
+
+.card:hover{
+    transform: translateY(-4px);
+}
+
+.card-header{
+    background: linear-gradient(135deg, #28a745, #198754);
+}
+
+input,
+select,
+textarea{
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color: #28a745;
+    box-shadow: 0 0 10px rgba(40,167,69,0.25);
+    outline: none;
+}
+
+.form-label{
+    color: #333;
+}
+
+.input-group-text{
+    background: #f8f9fa;
+    font-weight: 600;
+}
+
+.btn-success,
+.btn-outline-secondary{
+    border-radius: 10px;
+}
+</style>
+
 {% endblock %}
