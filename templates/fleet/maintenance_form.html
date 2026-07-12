@@ -1,5 +1,141 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h3>New Maintenance Record</h3>
-<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-success">Save</button></form>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- Header -->
+                <div class="card-header text-dark py-4">
+                    <h2 class="mb-1">🔧 New Maintenance Record</h2>
+                    <p class="mb-0">
+                        Add maintenance details for your fleet vehicles
+                    </p>
+                </div>
+
+                <!-- Form -->
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                            {% for field in form %}
+                                {% if field.name != "cost" %}
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label fw-bold">
+                                        {{ field.label }}
+                                    </label>
+
+                                    {{ field }}
+
+                                    {% if field.help_text %}
+                                        <small class="text-muted d-block mt-1">
+                                            {{ field.help_text }}
+                                        </small>
+                                    {% endif %}
+
+                                    {% if field.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ field.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+
+                            <!-- Cost Field with Rupee Symbol -->
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold">
+                                    {{ form.cost.label }}
+                                </label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text">₹</span>
+                                    {{ form.cost }}
+                                </div>
+
+                                {% if form.cost.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ form.cost.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'maintenance_list' %}" class="btn btn-outline-secondary px-4">
+                                ← Back
+                            </a>
+
+                            <button type="submit" class="btn btn-warning px-5 fw-bold">
+                                💾 Save Record
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+.card{
+    transition: all 0.3s ease;
+}
+
+.card:hover{
+    transform: translateY(-4px);
+}
+
+input,
+select,
+textarea{
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #dcdcdc;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color: #ffc107;
+    box-shadow: 0 0 10px rgba(255,193,7,0.25);
+    outline: none;
+}
+
+.form-label{
+    color: #333;
+}
+
+.card-header{
+    background: linear-gradient(135deg, #ffc107, #ff9800);
+}
+
+.btn-warning,
+.btn-outline-secondary{
+    border-radius: 10px;
+}
+
+.input-group-text{
+    background: #fff3cd;
+    border: 1px solid #dcdcdc;
+    border-right: none;
+    font-weight: bold;
+    border-radius: 12px 0 0 12px;
+}
+
+.input-group input{
+    border-radius: 0 12px 12px 0 !important;
+}
+</style>
+
 {% endblock %}
