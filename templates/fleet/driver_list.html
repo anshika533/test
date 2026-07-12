@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between">
+  <h3>Drivers</h3>
+  <a class="btn btn-primary" href="{% url 'driver_create' %}">+ Add Driver</a>
+</div>
+<table class="table table-bordered bg-white mt-3">
+<thead><tr><th>Name</th><th>License No</th><th>Expiry</th><th>Status</th><th>Safety Score</th></tr></thead>
+<tbody>
+{% for d in drivers %}
+<tr><td>{{ d.name }}</td><td>{{ d.license_number }}</td><td>{{ d.license_expiry_date }}</td>
+<td><span class="badge bg-secondary">{{ d.status }}</span></td><td>{{ d.safety_score }}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

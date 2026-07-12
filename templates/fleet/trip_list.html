@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between">
+  <h3>Trips</h3>
+  <a class="btn btn-primary" href="{% url 'trip_create' %}">+ New Trip</a>
+</div>
+<table class="table table-bordered bg-white mt-3">
+<thead><tr><th>Route</th><th>Vehicle</th><th>Driver</th><th>Cargo(kg)</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody>
+{% for t in trips %}
+<tr>
+<td>{{ t.source }} → {{ t.destination }}</td>
+<td>{{ t.vehicle }}</td><td>{{ t.driver }}</td><td>{{ t.cargo_weight }}</td>
+<td><span class="badge bg-info text-dark">{{ t.status }}</span></td>
+<td>
+{% if t.status == 'DRAFT' %}
+  <a class="btn btn-sm btn-success" href="{% url 'trip_dispatch' t.pk %}">Dispatch</a>
+{% elif t.status == 'DISPATCHED' %}
+  <a class="btn btn-sm btn-primary" href="{% url 'trip_complete' t.pk %}">Complete</a>
+  <a class="btn btn-sm btn-danger" href="{% url 'trip_cancel' t.pk %}">Cancel</a>
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

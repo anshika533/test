@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between">
+  <h3>Maintenance Logs</h3>
+  <a class="btn btn-primary" href="{% url 'maintenance_create' %}">+ New Maintenance</a>
+</div>
+<table class="table table-bordered bg-white mt-3">
+<thead><tr><th>Vehicle</th><th>Description</th><th>Cost</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody>
+{% for m in logs %}
+<tr><td>{{ m.vehicle }}</td><td>{{ m.description }}</td><td>{{ m.cost }}</td>
+<td><span class="badge bg-warning text-dark">{{ m.status }}</span></td>
+<td>{% if m.status == 'OPEN' %}<a class="btn btn-sm btn-success" href="{% url 'maintenance_close' m.pk %}">Close</a>{% endif %}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Reports - Operational Cost per Vehicle</h3>
+<table class="table table-bordered bg-white mt-3">
+<thead><tr><th>Vehicle</th><th>Fuel Cost</th><th>Maintenance Cost</th><th>Total Operational Cost</th></tr></thead>
+<tbody>
+{% for row in data %}
+<tr><td>{{ row.vehicle }}</td><td>{{ row.fuel_cost }}</td><td>{{ row.maintenance_cost }}</td><td>{{ row.operational_cost }}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

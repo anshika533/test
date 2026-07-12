@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Dashboard</h3>
+<div class="row g-3 mt-2">
+  <div class="col-md-3"><div class="card p-3"><h6>Active Vehicles</h6><h3>{{ active_vehicles }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3"><h6>Available Vehicles</h6><h3>{{ available_vehicles }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3"><h6>Vehicles in Maintenance</h6><h3>{{ vehicles_in_maintenance }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3"><h6>Active Trips</h6><h3>{{ active_trips }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3"><h6>Pending Trips</h6><h3>{{ pending_trips }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3"><h6>Drivers On Duty</h6><h3>{{ drivers_on_duty }}</h3></div></div>
+  <div class="col-md-3"><div class="card p-3"><h6>Fleet Utilization</h6><h3>{{ fleet_utilization }}%</h3></div></div>
+</div>
+{% endblock %}

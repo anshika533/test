@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between">
+  <h3>Vehicles</h3>
+  <a class="btn btn-primary" href="{% url 'vehicle_create' %}">+ Register Vehicle</a>
+</div>
+<table class="table table-bordered bg-white mt-3">
+<thead><tr><th>Reg No</th><th>Model</th><th>Type</th><th>Capacity(kg)</th><th>Status</th><th>Region</th></tr></thead>
+<tbody>
+{% for v in vehicles %}
+<tr><td>{{ v.registration_number }}</td><td>{{ v.name_model }}</td><td>{{ v.vehicle_type }}</td>
+<td>{{ v.max_load_capacity }}</td><td><span class="badge bg-secondary">{{ v.status }}</span></td><td>{{ v.region }}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}

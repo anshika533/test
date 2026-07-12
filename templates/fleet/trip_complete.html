@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Complete Trip: {{ trip.source }} → {{ trip.destination }}</h3>
+<form method="post">
+{% csrf_token %}
+<div class="mb-3"><label>Final Odometer</label><input class="form-control" type="number" step="0.01" name="final_odometer" required></div>
+<div class="mb-3"><label>Fuel Consumed (L)</label><input class="form-control" type="number" step="0.01" name="fuel_consumed" required></div>
+<button class="btn btn-success">Mark Completed</button>
+</form>
+{% endblock %}
