@@ -2,143 +2,469 @@
 
 {% block content %}
 
-<div class="container-fluid mt-4">
+<div class="container-fluid py-4 dashboard-bg">
 
-    <h2 class="mb-4 fw-bold">
-        🚚 TransitOps Dashboard
-    </h2>
+    <!-- Header -->
+    <div class="dashboard-header mb-5">
+        <div>
+            <h1 class="dashboard-title">
+                🚚 TransitOps Dashboard
+            </h1>
 
-    <div class="row">
+            <p class="dashboard-subtitle">
+                Real-time fleet monitoring and logistics management platform
+            </p>
+        </div>
 
-        <!-- Active Vehicles -->
-        <div class="col-md-3 mb-4">
-            <div class="card shadow border-0 bg-primary text-white">
-                <div class="card-body text-center">
-                    <h6>Active Vehicles</h6>
+        <div>
+            <span class="status-badge">
+                🟢 System Online
+            </span>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4">
+
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="dashboard-card primary-card">
+                <div>
+                    <h6>ACTIVE VEHICLES</h6>
                     <h2>{{ active_vehicles }}</h2>
+                    <small>Fleet Running</small>
+                </div>
+
+                <div class="card-icon">
+                    🚚
                 </div>
             </div>
         </div>
 
-        <!-- Available Vehicles -->
-        <div class="col-md-3 mb-4">
-            <div class="card shadow border-0 bg-success text-white">
-                <div class="card-body text-center">
-                    <h6>Available Vehicles</h6>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="dashboard-card success-card">
+                <div>
+                    <h6>AVAILABLE VEHICLES</h6>
                     <h2>{{ available_vehicles }}</h2>
+                    <small>Ready For Trips</small>
+                </div>
+
+                <div class="card-icon">
+                    ✅
                 </div>
             </div>
         </div>
 
-        <!-- In Maintenance -->
-        <div class="col-md-3 mb-4">
-            <div class="card shadow border-0 bg-warning text-dark">
-                <div class="card-body text-center">
-                    <h6>Maintenance</h6>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="dashboard-card warning-card">
+                <div>
+                    <h6>MAINTENANCE</h6>
                     <h2>{{ vehicles_in_maintenance }}</h2>
+                    <small>Under Service</small>
+                </div>
+
+                <div class="card-icon">
+                    🔧
                 </div>
             </div>
         </div>
 
-        <!-- Active Trips -->
-        <div class="col-md-3 mb-4">
-            <div class="card shadow border-0 bg-danger text-white">
-                <div class="card-body text-center">
-                    <h6>Active Trips</h6>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="dashboard-card danger-card">
+                <div>
+                    <h6>ACTIVE TRIPS</h6>
                     <h2>{{ active_trips }}</h2>
+                    <small>Trips Running</small>
+                </div>
+
+                <div class="card-icon">
+                    🛣️
                 </div>
             </div>
         </div>
 
     </div>
 
-    <div class="row">
+    <!-- Middle Cards -->
+    <div class="row mt-2 g-4">
 
-        <!-- Pending Trips -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow">
-                <div class="card-body text-center">
-                    <h5>Pending Trips</h5>
-                    <h3>{{ pending_trips }}</h3>
+        <div class="col-lg-4">
+            <div class="glass-card text-center h-100 p-5">
+
+                <div class="circle-icon warning-circle">
+                    ⏳
                 </div>
+
+                <h4 class="mt-4 fw-bold">
+                    Pending Trips
+                </h4>
+
+                <h1 class="fw-bold text-warning display-4">
+                    {{ pending_trips }}
+                </h1>
+
+                <p class="text-muted">
+                    Awaiting dispatch approval
+                </p>
+
             </div>
         </div>
 
-        <!-- Drivers -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow">
-                <div class="card-body text-center">
-                    <h5>Drivers On Duty</h5>
-                    <h3>{{ drivers_on_duty }}</h3>
+        <div class="col-lg-4">
+            <div class="glass-card text-center h-100 p-5">
+
+                <div class="circle-icon info-circle">
+                    👨‍✈️
                 </div>
+
+                <h4 class="mt-4 fw-bold">
+                    Drivers On Duty
+                </h4>
+
+                <h1 class="fw-bold text-info display-4">
+                    {{ drivers_on_duty }}
+                </h1>
+
+                <p class="text-muted">
+                    Drivers currently assigned
+                </p>
+
             </div>
         </div>
 
-        <!-- Fleet Utilization -->
-        <div class="col-md-4 mb-4">
-            <div class="card shadow">
-                <div class="card-body">
+        <div class="col-lg-4">
+            <div class="glass-card text-center h-100 p-5">
 
-                    <h5 class="text-center">
-                        Fleet Utilization
-                    </h5>
+                <h4 class="fw-bold mb-4">
+                    Fleet Utilization
+                </h4>
 
-                    <div class="progress mt-4" style="height:30px;">
-
-                        <div
-                            class="progress-bar bg-success"
-                            role="progressbar"
-                            style="width: {{ fleet_utilization }}%;"
-                        >
-                            {{ fleet_utilization }}%
-                        </div>
-
-                    </div>
-
+                <div class="progress-circle">
+                    <span>
+                        {{ fleet_utilization }}%
+                    </span>
                 </div>
+
+                <p class="text-muted mt-4">
+                    Current fleet usage efficiency
+                </p>
+
             </div>
         </div>
 
     </div>
 
-    <div class="card shadow mt-3">
+    <!-- Quick Actions -->
+    <div class="glass-card mt-4 p-4">
 
-        <div class="card-header bg-dark text-white">
-
-            Quick Actions
-
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold mb-0">
+                ⚡ Quick Actions
+            </h3>
         </div>
 
-        <div class="card-body">
+        <div class="row g-4">
 
-            <a href="{% url 'vehicle_create' %}" class="btn btn-primary me-2">
-                🚚 Add Vehicle
-            </a>
+            <div class="col-lg-2 col-md-4 col-6">
+                <a href="{% url 'vehicle_create' %}" class="action-card">
+                    <div class="action-icon">🚚</div>
+                    <span>Add Vehicle</span>
+                </a>
+            </div>
 
-            <a href="{% url 'vehicle_list' %}" class="btn btn-success me-2">
-                📋 View Vehicles
-            </a>
+            <div class="col-lg-2 col-md-4 col-6">
+                <a href="{% url 'vehicle_list' %}" class="action-card">
+                    <div class="action-icon">📋</div>
+                    <span>Vehicles</span>
+                </a>
+            </div>
 
-            <a href="{% url 'driver_create' %}" class="btn btn-info me-2">
-                👨 Add Driver
-            </a>
+            <div class="col-lg-2 col-md-4 col-6">
+                <a href="{% url 'driver_create' %}" class="action-card">
+                    <div class="action-icon">👨‍✈️</div>
+                    <span>Add Driver</span>
+                </a>
+            </div>
 
-            <a href="{% url 'trip_create' %}" class="btn btn-warning me-2">
-                🚛 Create Trip
-            </a>
+            <div class="col-lg-2 col-md-4 col-6">
+                <a href="{% url 'trip_create' %}" class="action-card">
+                    <div class="action-icon">🚛</div>
+                    <span>Create Trip</span>
+                </a>
+            </div>
 
-            <a href="{% url 'maintenance_create' %}" class="btn btn-danger me-2">
-                🔧 Maintenance
-            </a>
+            <div class="col-lg-2 col-md-4 col-6">
+                <a href="{% url 'maintenance_create' %}" class="action-card">
+                    <div class="action-icon">🔧</div>
+                    <span>Maintenance</span>
+                </a>
+            </div>
 
-            <a href="{% url 'reports' %}" class="btn btn-secondary">
-                📊 Reports
-            </a>
+            <div class="col-lg-2 col-md-4 col-6">
+                <a href="{% url 'reports' %}" class="action-card">
+                    <div class="action-icon">📊</div>
+                    <span>Reports</span>
+                </a>
+            </div>
 
         </div>
 
     </div>
 
 </div>
+
+
+<style>
+
+.dashboard-bg{
+    background: linear-gradient(135deg,#f8fafc,#eef2ff,#f8fafc);
+    min-height: 100vh;
+}
+
+.dashboard-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.dashboard-title{
+    font-size:42px;
+    font-weight:800;
+    color:#111827;
+}
+
+.dashboard-subtitle{
+    color:#6b7280;
+    font-size:18px;
+}
+
+.status-badge{
+    background:#10b981;
+    color:white;
+    padding:14px 28px;
+    border-radius:50px;
+    font-weight:600;
+    box-shadow:0 8px 20px rgba(16,185,129,.3);
+}
+
+/* Top Cards */
+
+.dashboard-card{
+    height:180px;
+    border-radius:24px;
+    padding:28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:white;
+    position:relative;
+    overflow:hidden;
+    transition:.3s;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.dashboard-card::before{
+    content:'';
+    position:absolute;
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    background:rgba(255,255,255,.15);
+    top:-40px;
+    right:-40px;
+}
+
+.dashboard-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+.dashboard-card h6{
+    font-size:13px;
+    letter-spacing:1px;
+    margin-bottom:15px;
+    opacity:.9;
+}
+
+.dashboard-card h2{
+    font-size:48px;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.dashboard-card small{
+    font-size:14px;
+}
+
+.primary-card{
+    background:linear-gradient(135deg,#4f46e5,#6366f1);
+}
+
+.success-card{
+    background:linear-gradient(135deg,#059669,#10b981);
+}
+
+.warning-card{
+    background:linear-gradient(135deg,#f59e0b,#fbbf24);
+}
+
+.danger-card{
+    background:linear-gradient(135deg,#dc2626,#ef4444);
+}
+
+.card-icon{
+    font-size:70px;
+    transition:.3s;
+}
+
+.dashboard-card:hover .card-icon{
+    transform:scale(1.15);
+}
+
+/* Glass Card */
+
+.glass-card{
+    background:rgba(255,255,255,.85);
+    border-radius:24px;
+    border:1px solid rgba(255,255,255,.5);
+    backdrop-filter:blur(15px);
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
+    transition:.3s;
+}
+
+.glass-card:hover{
+    transform:translateY(-5px);
+}
+
+/* Circle Icons */
+
+.circle-icon{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:auto;
+    font-size:42px;
+}
+
+.warning-circle{
+    background:#fff7ed;
+}
+
+.info-circle{
+    background:#ecfeff;
+}
+
+/* Progress Circle */
+
+.progress-circle{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    margin:auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:34px;
+    font-weight:800;
+    background:
+    conic-gradient(
+        #10b981 {{ fleet_utilization }}%,
+        #e5e7eb 0
+    );
+    position:relative;
+}
+
+.progress-circle::before{
+    content:"";
+    position:absolute;
+    width:135px;
+    height:135px;
+    background:white;
+    border-radius:50%;
+}
+
+.progress-circle span{
+    position:relative;
+    z-index:1;
+}
+
+/* Quick Actions */
+
+.action-card{
+    background:white;
+    border-radius:20px;
+    height:140px;
+    text-decoration:none;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    color:#374151;
+    box-shadow:0 8px 25px rgba(0,0,0,.06);
+    transition:.3s;
+    border:1px solid #f1f5f9;
+}
+
+.action-card:hover{
+    transform:translateY(-8px);
+    color:#4f46e5;
+    box-shadow:0 20px 35px rgba(79,70,229,.15);
+}
+
+.action-icon{
+    font-size:38px;
+    margin-bottom:12px;
+}
+
+.action-card span{
+    font-weight:600;
+}
+
+/* Navbar */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:999;
+    backdrop-filter:blur(12px);
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+    .dashboard-title{
+        font-size:32px;
+    }
+
+    .dashboard-card{
+        height:160px;
+    }
+
+    .dashboard-card h2{
+        font-size:38px;
+    }
+
+    .card-icon{
+        font-size:55px;
+    }
+
+    .progress-circle{
+        width:150px;
+        height:150px;
+    }
+
+    .progress-circle::before{
+        width:110px;
+        height:110px;
+    }
+
+}
+
+</style>
 
 {% endblock %}
