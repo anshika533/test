@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="mb-4 fw-bold">
+        🚚 TransitOps Dashboard
+    </h2>
+
+    <div class="row">
+
+        <!-- Active Vehicles -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-0 bg-primary text-white">
+                <div class="card-body text-center">
+                    <h6>Active Vehicles</h6>
+                    <h2>{{ active_vehicles }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Available Vehicles -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-0 bg-success text-white">
+                <div class="card-body text-center">
+                    <h6>Available Vehicles</h6>
+                    <h2>{{ available_vehicles }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- In Maintenance -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-0 bg-warning text-dark">
+                <div class="card-body text-center">
+                    <h6>Maintenance</h6>
+                    <h2>{{ vehicles_in_maintenance }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Trips -->
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-0 bg-danger text-white">
+                <div class="card-body text-center">
+                    <h6>Active Trips</h6>
+                    <h2>{{ active_trips }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <!-- Pending Trips -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Pending Trips</h5>
+                    <h3>{{ pending_trips }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Drivers -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5>Drivers On Duty</h5>
+                    <h3>{{ drivers_on_duty }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fleet Utilization -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+
+                    <h5 class="text-center">
+                        Fleet Utilization
+                    </h5>
+
+                    <div class="progress mt-4" style="height:30px;">
+
+                        <div
+                            class="progress-bar bg-success"
+                            role="progressbar"
+                            style="width: {{ fleet_utilization }}%;"
+                        >
+                            {{ fleet_utilization }}%
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow mt-3">
+
+        <div class="card-header bg-dark text-white">
+
+            Quick Actions
+
+        </div>
+
+        <div class="card-body">
+
+            <a href="{% url 'vehicle_create' %}" class="btn btn-primary me-2">
+                🚚 Add Vehicle
+            </a>
+
+            <a href="{% url 'vehicle_list' %}" class="btn btn-success me-2">
+                📋 View Vehicles
+            </a>
+
+            <a href="{% url 'driver_create' %}" class="btn btn-info me-2">
+                👨 Add Driver
+            </a>
+
+            <a href="{% url 'trip_create' %}" class="btn btn-warning me-2">
+                🚛 Create Trip
+            </a>
+
+            <a href="{% url 'maintenance_create' %}" class="btn btn-danger me-2">
+                🔧 Maintenance
+            </a>
+
+            <a href="{% url 'reports' %}" class="btn btn-secondary">
+                📊 Reports
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
