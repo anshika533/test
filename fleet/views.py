@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.db.models import Sum
 from .models import Vehicle, Driver, Trip, MaintenanceLog, FuelLog, Expense
 from .forms import VehicleForm, DriverForm, TripForm, MaintenanceForm, FuelLogForm
+from .models import VehicleDocument
+from .forms import VehicleDocumentForm
 
 
 @login_required
@@ -294,3 +296,39 @@ def reports(request):
             'maintenance_cost': total_maint_cost, 'operational_cost': operational_cost,
         })
     return render(request, 'fleet/reports.html', {'data': data})
+
+
+@login_required
+def vehicle_document_list(request):
+    documents = VehicleDocument.objects.select_related(
+        "vehicle"
+    ).order_by("expiry_date")
+
+    return render(
+        request,
+        "fleet/vehicle_document_list.html",
+        {"documents": documents}
+    )
+
+
+@login_required
+def vehicle_document_create(request):
+
+    if request.method == "POST":
+        form = VehicleDocumentForm(
+            request.POST,
+            request.FILES
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect("vehicle_document_list")
+
+    else:
+        form = VehicleDocumentForm()
+
+    return render(
+        request,
+        "fleet/vehicle_document_form.html",
+        {"form": form}
+    )
