@@ -46,3 +46,4 @@ urlpatterns = [
         name='vehicle_document_create'
     ),
 ]
+

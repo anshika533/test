@@ -367,3 +367,5 @@ def vehicle_document_create(request):
         "fleet/vehicle_document_form.html",
         {"form": form}
     )
+
+
