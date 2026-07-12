@@ -1,5 +1,102 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h3>New Trip</h3>
-<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-success">Create (Draft)</button></form>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0 rounded-4">
+                
+                <!-- Header -->
+                <div class="card-header bg-primary text-white py-4 rounded-top-4">
+                    <h2 class="mb-1">🚚 Create New Trip</h2>
+                    <p class="mb-0 opacity-75">
+                        Plan and schedule a new transportation trip
+                    </p>
+                </div>
+
+                <!-- Form -->
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            {% for field in form %}
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-semibold">
+                                    {{ field.label }}
+                                </label>
+
+                                {{ field }}
+
+                                {% if field.help_text %}
+                                <small class="text-muted">
+                                    {{ field.help_text }}
+                                </small>
+                                {% endif %}
+
+                                {% if field.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ field.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'trip_list' %}" class="btn btn-outline-secondary px-4">
+                                ← Back
+                            </a>
+
+                            <button type="submit" class="btn btn-success px-5">
+                                Create Trip
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+.card{
+    transition: 0.3s ease;
+}
+
+.card:hover{
+    transform: translateY(-3px);
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #dcdcdc;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#0d6efd;
+    box-shadow:0 0 10px rgba(13,110,253,.15);
+    outline:none;
+}
+
+.form-label{
+    color:#333;
+}
+
+.card-header{
+    background: linear-gradient(135deg,#0d6efd,#4f46e5);
+}
+</style>
+
 {% endblock %}
