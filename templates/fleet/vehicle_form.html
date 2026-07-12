@@ -1,5 +1,71 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h3>Register Vehicle</h3>
-<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-success">Save</button></form>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-lg border-0 rounded-4">
+                
+                <div class="card-header text-center bg-primary text-white py-3 rounded-top-4">
+                    <h3 class="mb-0">
+                        🚗 Register Vehicle
+                    </h3>
+                    <p class="mb-0">Add a new vehicle to your fleet</p>
+                </div>
+
+                <div class="card-body p-4">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">
+                                    {{ field.label }}
+                                </label>
+                                {{ field }}
+                                
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-success btn-lg rounded-3">
+                                Save Vehicle
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card{
+    transition: 0.3s;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+}
+
+input, select, textarea{
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    outline: none;
+}
+
+input:focus, select:focus, textarea:focus{
+    border-color: #0d6efd;
+    box-shadow: 0 0 10px rgba(13,110,253,0.2);
+}
+</style>
+
 {% endblock %}
