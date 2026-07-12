@@ -1,5 +1,5 @@
 from django import forms
-from .models import Vehicle, Driver, Trip, MaintenanceLog, FuelLog
+from .models import Vehicle, Driver, Trip, MaintenanceLog, FuelLog, VehicleDocument
 import re
 
 class VehicleForm(forms.ModelForm):
@@ -97,4 +97,28 @@ class FuelLogForm(forms.ModelForm):
             'price_per_litre': forms.NumberInput(attrs={'class': 'form-control'}),
             'cost': forms.NumberInput(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }
+
+
+class VehicleDocumentForm(forms.ModelForm):
+    class Meta:
+        model = VehicleDocument
+        fields = "__all__"
+
+        widgets = {
+            "vehicle": forms.Select(attrs={"class": "form-select"}),
+            "document_type": forms.Select(attrs={"class": "form-select"}),
+            "document_number": forms.TextInput(attrs={"class": "form-control"}),
+            "issue_date": forms.DateInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "date"
+                }
+            ),
+            "expiry_date": forms.DateInput(
+                attrs={
+                    "class": "form-control",
+                    "type": "date"
+                }
+            ),
         }

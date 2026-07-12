@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 class Vehicle(models.Model):
@@ -71,6 +72,13 @@ class Trip(models.Model):
     destination = models.CharField(max_length=150)
     vehicle = models.ForeignKey(Vehicle, on_delete=models.PROTECT, related_name='trips')
     driver = models.ForeignKey(Driver, on_delete=models.PROTECT, related_name='trips')
+    customer = models.ForeignKey(
+    "Customer",
+    on_delete=models.CASCADE,
+    related_name="trips",
+    null=True,
+    blank=True
+)
     cargo_weight = models.DecimalField(max_digits=10, decimal_places=2)
     planned_distance = models.DecimalField(max_digits=10, decimal_places=2)
     final_odometer = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
@@ -79,6 +87,7 @@ class Trip(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     dispatched_at = models.DateTimeField(null=True, blank=True)
     completed_at = models.DateTimeField(null=True, blank=True)
+    
 
     def __str__(self):
         return f"{self.source} -> {self.destination} ({self.status})"
@@ -117,3 +126,58 @@ class Expense(models.Model):
 
     def __str__(self):
         return f"{self.vehicle} - {self.expense_type} - {self.amount}"
+    
+
+class VehicleDocument(models.Model):
+    DOCUMENT_TYPES = [
+        ('RC', 'Registration Certificate'),
+        ('INSURANCE', 'Insurance'),
+        ('PUC', 'Pollution Certificate'),
+        ('FITNESS', 'Fitness Certificate'),
+        ('PERMIT', 'Permit'),
+    ]
+
+    vehicle = models.ForeignKey(
+        Vehicle,
+        on_delete=models.CASCADE,
+        related_name='documents'
+    )
+
+    document_type = models.CharField(
+        max_length=20,
+        choices=DOCUMENT_TYPES
+    )
+
+    document_number = models.CharField(max_length=100)
+
+    issue_date = models.DateField()
+
+    expiry_date = models.DateField()
+
+    document_file = models.FileField(
+        upload_to='vehicle_documents/',
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=['pdf', 'jpg', 'jpeg', 'png']
+            )
+        ]
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.vehicle.registration_number} - {self.document_type}"
+    
+
+class Customer(models.Model):
+    company_name = models.CharField(max_length=150)
+    contact_person = models.CharField(max_length=100)
+    phone = models.CharField(max_length=10, validators=[phone_validator])
+    email = models.EmailField(blank=True)
+    address = models.TextField(blank=True)
+    gst_number = models.CharField(max_length=20, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.company_name

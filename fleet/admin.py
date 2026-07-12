@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Vehicle, Driver, Trip, MaintenanceLog, FuelLog, Expense
+from .models import Vehicle, Driver, Trip, MaintenanceLog, FuelLog, Expense, VehicleDocument
 
 @admin.register(Vehicle)
 class VehicleAdmin(admin.ModelAdmin):
@@ -31,3 +31,18 @@ class FuelLogAdmin(admin.ModelAdmin):
 class ExpenseAdmin(admin.ModelAdmin):
     list_display = ('vehicle', 'expense_type', 'amount', 'date')
     list_filter = ('expense_type',)
+
+@admin.register(VehicleDocument)
+class VehicleDocumentAdmin(admin.ModelAdmin):
+    list_display = (
+        "vehicle",
+        "document_type",
+        "document_number",
+        "expiry_date",
+    )
+    list_filter = ("document_type",)
+    search_fields = (
+        "vehicle__registration_number",
+        "document_number",
+    )
+    
